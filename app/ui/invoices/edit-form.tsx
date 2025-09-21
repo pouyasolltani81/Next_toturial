@@ -9,8 +9,8 @@ import {
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { Button } from '@/app/ui/button';
-import { updateInvoice } from '@/app/lib/actions';
 
+import { updateInvoice } from '@/app/lib/actions';
 export default function EditInvoiceForm({
   invoice,
   customers,
@@ -18,9 +18,12 @@ export default function EditInvoiceForm({
   invoice: InvoiceForm;
   customers: CustomerField[];
 }) {
-  const updateInvoiceWithId = updateInvoice.bind(null, invoice.id);
- 
-  return <form action={updateInvoiceWithId}>
+  const updateInvoiceWithId = async (formData: FormData): Promise<void> => {
+    await updateInvoice(invoice.id, formData);
+  };
+
+  return (
+    <form action={updateInvoiceWithId}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
         {/* Customer Name */}
         <div className="mb-4">
@@ -121,4 +124,5 @@ export default function EditInvoiceForm({
         <Button type="submit">Edit Invoice</Button>
       </div>
     </form>
+  );
 }
